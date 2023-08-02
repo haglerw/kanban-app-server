@@ -1,0 +1,22 @@
+{
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "compilerOptions": {
+    "target": "ESNext",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "rootDir": "src", // Location of TypeScript files
+    "outDir": "dist", // Location of compiled JavaScript files
+    "sourceMap": true // Generate sourcemaps
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

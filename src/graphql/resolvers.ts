@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require("uuid");
+import { v4 as uuidv4 } from "uuid";
 
 const firstColumn = uuidv4();
 const secondColumn = uuidv4();
@@ -54,7 +54,7 @@ const resolvers = {
     columns: () => kanbanData,
   },
   Mutation: {
-    addColumn: (_, { name }) => {
+    addColumn: (_: any, { name }: { name: string }) => {
       const newColumn = {
         id: uuidv4(),
         name,
@@ -63,14 +63,14 @@ const resolvers = {
       kanbanData.push(newColumn);
       return newColumn;
     },
-    editColumn: (_, { id, name }) => {
+    editColumn: (_: any, { id, name }: { id: string; name: string }) => {
       const column = kanbanData.find((c) => c.id === id);
       if (column) {
         column.name = name;
         return column;
       }
     },
-    deleteColumn: (_, { id }) => {
+    deleteColumn: (_: any, { id }: { id: string }) => {
       const columnIndex = kanbanData.findIndex((c) => c.id === id);
       if (columnIndex !== -1) {
         const deletedColumn = kanbanData.splice(columnIndex, 1);
@@ -79,7 +79,10 @@ const resolvers = {
 
       return null;
     },
-    addTask: (_, { taskInput }) => {
+    addTask: (
+      _: any,
+      { taskInput }: { taskInput: { name: string; columnID: string } }
+    ) => {
       const newTask = {
         id: uuidv4(),
         name: taskInput.name,
@@ -93,7 +96,7 @@ const resolvers = {
       column.tasks.push(newTask);
       return newTask;
     },
-    clearTasks: (_, { columnID }) => {
+    clearTasks: (_: any, { columnID }: { columnID: string }) => {
       const column = kanbanData.find((col) => col.id === columnID);
       if (column) {
         column.tasks = [];
@@ -101,7 +104,14 @@ const resolvers = {
       }
       return false;
     },
-    moveTask: (_, { taskID, fromColumnID, toColumnID }) => {
+    moveTask: (
+      _: any,
+      {
+        taskID,
+        fromColumnID,
+        toColumnID,
+      }: { taskID: string; fromColumnID: string; toColumnID: string }
+    ) => {
       // Find the 'from' column
       const fromColumn = kanbanData.find((col) => col.id === fromColumnID);
 
@@ -129,4 +139,4 @@ const resolvers = {
   },
 };
 
-module.exports = resolvers;
+export default resolvers;
