@@ -1,4 +1,3 @@
-const { ApolloServer, gql } = require("apollo-server");
 const { v4: uuidv4 } = require("uuid");
 
 const firstColumn = uuidv4();
@@ -6,38 +5,6 @@ const secondColumn = uuidv4();
 const thirdColumn = uuidv4();
 const fourthColumn = uuidv4();
 const fifthColumn = uuidv4();
-
-const typeDefs = gql`
-  type Task {
-    id: ID!
-    name: String!
-    columnID: ID!
-  }
-
-  type Column {
-    id: ID!
-    name: String!
-    tasks: [Task]
-  }
-
-  input TaskInput {
-    name: String!
-    columnID: ID!
-  }
-
-  type Query {
-    columns: [Column]
-  }
-
-  type Mutation {
-    addColumn(name: String!): Column
-    editColumn(id: ID!, name: String!): Column
-    deleteColumn(id: ID!): Column
-    addTask(taskInput: TaskInput!): Task
-    clearTasks(columnID: ID!): Boolean
-    moveTask(taskID: ID!, fromColumnID: ID!, toColumnID: ID!): Boolean
-  }
-`;
 
 const kanbanData = [
   {
@@ -162,8 +129,4 @@ const resolvers = {
   },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
-
-server.listen().then(({ url }) => {
-  console.log(`Apollo server ready at ${url}`);
-});
+module.exports = resolvers;
